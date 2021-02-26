@@ -10,6 +10,8 @@ let board, turn, winner;
 
 /*----- cached element references -----*/
 const msgEl = document.getElementById('msg');
+const markerEls = [...document.querySelectorAll('#markers > div')];
+console.log(markerEls)
 
 /*----- event listeners -----*/
 document.getElementById('markers')
@@ -19,7 +21,24 @@ document.getElementById('markers')
 init();
 
 function handleDrop(evt) {
-  console.log(evt.target);
+  // A marker has been clicked, update all
+  // impacted state, call render
+  
+  // Get the index of the clicked marker (col)
+  const colIdx = markerEls.indexOf(evt.target);
+  if (colIdx === -1 || winner) return;
+  const colArr = board[colIdx];
+  // Find the first open cell (0) in the colArr
+  const rowIdx = colArr.indexOf(0);
+  if (rowIdx === -1) return;
+  colArr[rowIdx] = turn;
+  turn *= -1;
+  winner = getWinner();
+  render();
+}
+
+function getWinner() {
+
 }
 
 function init() {
@@ -47,6 +66,8 @@ function render() {
       const div = document.getElementById(`c${colIdx}r${rowIdx}`);
       div.style.backgroundColor = colorLookup[cellVal];
     });
+    // <conditional expression> ? <truthy val> : <falsey val>;
+    markerEls[colIdx].style.visibility = colArr.includes(0) ? 'visible' : 'hidden';
   });
   // Render the msg
   if (winner === 'T') {
