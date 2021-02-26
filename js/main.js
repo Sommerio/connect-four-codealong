@@ -9,7 +9,7 @@ const colorLookup = {
 let board, turn, winner;
 
 /*----- cached element references -----*/
-
+const msgEl = document.getElementById('msg');
 
 /*----- event listeners -----*/
 document.getElementById('markers')
@@ -25,13 +25,13 @@ function handleDrop(evt) {
 function init() {
   // Initialize all state
   board = [
-    [1, 0, 0, 0, 0, 0],  // Column 0
+    [0, 0, 0, 0, 0, 0],  // Column 0
     [0, 0, 0, 0, 0, 0],  // Column 1
     [0, 0, 0, 0, 0, 0],  // Column 2
     [0, 0, 0, 0, 0, 0],  // Column 3
     [0, 0, 0, 0, 0, 0],  // Column 4
     [0, 0, 0, 0, 0, 0],  // Column 5
-    [0, 0, 0, 0, 0, -1],  // Column 6
+    [0, 0, 0, 0, 0, 0],  // Column 6
   ];
   turn = 1;
   winner = null;
@@ -48,4 +48,14 @@ function render() {
       div.style.backgroundColor = colorLookup[cellVal];
     });
   });
+  // Render the msg
+  if (winner === 'T') {
+    msgEl.textContent = "It's a Tie!!!";
+  } else if (winner) {
+    // A player has won
+    msgEl.innerHTML = `<span style="color: ${colorLookup[winner]}">${colorLookup[winner].toUpperCase()}</span> Wins!`;
+  } else {
+    // No winner yet, show whose turn
+    msgEl.innerHTML = `<span style="color: ${colorLookup[turn]}">${colorLookup[turn].toUpperCase()}</span>'s Turn`;
+  }
 }
