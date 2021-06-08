@@ -2,7 +2,7 @@
 const colorLookup = {
   '0': 'white',
   '1': 'purple',
-  '-1': 'lime'
+  '-1': 'orange'
 };
 
 /*----- app's state (variables) -----*/
